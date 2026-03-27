@@ -96,6 +96,42 @@
   <axis xyz="1 0 0"/>
 </joint>
 
+<link name="rear_ball_link">
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="0.005"/>
+    <inertia ixx="6.5e-08" ixy="0" ixz="0"
+             iyy="6.5e-08" iyz="0"
+             izz="6.5e-08"/>
+  </inertial>
+  <visual>
+    <geometry>
+      <mesh filename="robots/meshes/rear_ball_link.STL"/>
+    </geometry>
+    <material name="yellow">
+      <color rgba="1.0 1.0 0.0 1"/>
+    </material>
+  </visual>
+  <collision>
+    <geometry>
+      <mesh filename="robots/meshes/rear_ball_link.STL"/>
+    </geometry>
+    <surface>
+      <friction>
+        <!-- <ode mu="0.01" mu2="0.01"/> -->
+        <ode mu="0.0001" mu2="0.0001"/>
+      </friction>
+    </surface>
+  </collision>
+</link>
+
+<joint name="rear_ball_joint" type="continuous">
+  <origin xyz="0 0.0061 0.00503" rpy="3.1416 -1.5708 0"/>
+  <parent link="chassis_link"/>
+  <child link="rear_ball_link"/>
+  <axis xyz="1 0 0"/>
+</joint>
+
 <link name="UV_LED_link">
   <visual>
     <geometry>
@@ -128,56 +164,6 @@
   <origin xyz="0 0 -0.03073" rpy="+1.5708 +1.5708 +1.5708"/>
   <parent link="chassis_link"/>
   <child link="sensor_camera_link"/>
-</joint>
-
-<link name="right_leg_link">
-  <inertial>
-    <origin xyz="0 0 0.0006" rpy="0 0 0" />
-    <mass value="0.00002" />
-    <inertia ixx="2.74e-11" ixy="0" ixz="0" iyy="2.74e-11" iyz="0" izz="4.66e-11" />
-  </inertial>
-  <visual>
-    <geometry>
-      <mesh filename="robots/meshes/right_leg_link.STL" />
-    </geometry>
-    <material name="leg_color"/>
-  </visual>
-  <collision>
-    <geometry>
-      <mesh filename="robots/meshes/right_leg_link.STL" />
-    </geometry>
-  </collision>
-</link>
-
-<joint name="right_leg_joint" type="fixed">
-  <origin xyz="-0.014 0.0113 0.0173" rpy="-1.5708 0 3.1416" />
-  <parent link="chassis_link" />
-  <child link="right_leg_link" />
-</joint>
-
-<link name="left_leg_link">
-  <inertial>
-    <origin xyz="0 0 0.0006" rpy="0 0 0" />
-    <mass value="0.00002" />
-    <inertia ixx="2.74e-11" ixy="0" ixz="0" iyy="2.74e-11" iyz="0" izz="4.66e-11" />
-  </inertial>
-  <visual>
-    <geometry>
-      <mesh filename="robots/meshes/left_leg_link.STL" />
-    </geometry>
-    <material name="leg_color"/>
-  </visual>
-  <collision>
-    <geometry>
-      <mesh filename="robots/meshes/left_leg_link.STL" />
-    </geometry>
-  </collision>
-</link>
-
-<joint name="left_leg_joint" type="fixed">
-  <origin xyz="0.014 0.0113 0.0173" rpy="-1.5708 0 3.1416" />
-  <parent link="chassis_link" />
-  <child link="left_leg_link" />
 </joint>
 
 </robot>
