@@ -13,7 +13,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.002"/> 
+        <sphere radius="0.003"/> 
       </geometry>
       <material name="red">
         <color rgba="1 0 0 1"/>
@@ -22,7 +22,7 @@
     
     <collision>
       <geometry>
-        <sphere radius="0.002"/>
+        <sphere radius="0.003"/>
       </geometry>
       <surface>
         <bounce restitution_coefficient="0.8" threshold="0.001"/>

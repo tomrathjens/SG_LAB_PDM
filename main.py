@@ -11,12 +11,17 @@ def main():
 
     sim = Simulation(gui=True)
     controllers = []
-    NBR_robot_units = 4
+    NBR_robot_units = 10
+
 
     ################### list of possible start positions for the robots ###################
     # arena is 2.1m x 2.1
-    grid_x = np.arange(-0.9, 0.9, 0.15)
-    grid_y = np.arange(-0.9, 0.9, 0.15)
+    #get arena size from the arena class
+    arena_size = sim.arena.size
+    grid_x = np.arange(-arena_size/2 + 0.15, arena_size/2 - 0.15, 0.15)
+    grid_y = np.arange(-arena_size/2 + 0.15, arena_size/2 - 0.15, 0.15)
+    # grid_x = np.arange(-0.9, 0.9, 0.15)
+    # grid_y = np.arange(-0.9, 0.9, 0.15)
     all_safe_spots = [[x, y, 0.025] for x in grid_x for y in grid_y]
     chosen_spots = random.sample(all_safe_spots, NBR_robot_units)
 
@@ -34,7 +39,7 @@ def main():
         #p.changeDynamics(robot_id, -1, contactMargin=0.0001)
 
         #########################load the balls in the reservoir########################
-        ball_size = 0.005
+        ball_size = 0.006
         Old_reservoir_coord = np.array([0, -0.014, 0])
 
         R = np.array([
@@ -45,7 +50,7 @@ def main():
 
         Rotated_reservoir_coord = R @ Old_reservoir_coord
 
-        NBR_balls_per_robot = 10
+        NBR_balls_per_robot = 15
 
         for i in range(NBR_balls_per_robot):
             ball_pos = [
@@ -58,8 +63,12 @@ def main():
             p.changeDynamics(
                 ball_id,
                 -1,
-                contactStiffness=1e4,  # Higher stiffness for tiny objects
-                contactDamping=100,linearDamping=0.0, angularDamping=0.0
+                lateralFriction=0.2,       # Smooth, hard surface friction
+                rollingFriction=0.0005,    # Extremely low rolling drag (rolls very freely)
+                spinningFriction=0.0005,   # Easily pivots
+                restitution=0.7,           # Bouncy (hard plastic/glass)
+                linearDamping=0.0,         # Zero artificial aerodynamic drag
+                angularDamping=0.0         # Zero artificial rotational drag
             )
 
 
@@ -70,7 +79,6 @@ def main():
     is_paused = False
 
     ######################### SIMULATION LOOP ########################
-    old_state = "forward" #initial state of the FSM, can be changed
     while True:
         ################Pause functionality################
         current_clicks = p.readUserDebugParameter(pause_button)
@@ -91,25 +99,30 @@ def main():
             # Simple fix: Use p.getContactPoints(robot_id, ball_id) or p.rayTest() here.
 
             
-
+            
             for controller in controllers:
                 # ####################### For now : random movement, based on previous state #######################
-                # potential_new_state = random.choice(["forward", "turn_left", "turn_right", "stop"])
+                potential_new_state = random.choices(
+                    population=["forward", "turn_left", "turn_right", "stop"],
+                    weights=[0.5, 0.2, 0.2, 0.1]
+                )[0] 
                 
-                # # random.choices returns a list, so we add [0] to get the string
-                # state_selection = random.choices(
-                #     population=[old_state, potential_new_state],
-                #     weights=[0.999, 0.001],
-                #     k=1)[0]
+                state_selection = random.choices(
+                    population=[controller.current_state, potential_new_state],
+                    weights=[0.99, 0.01],
+                    k=1
+                )[0]
 
-                # old_state = state_selection # Update old_state for the next iteration
-                # # Dynamically call the method (forward, turn_left, etc.) based on the state string
-                # if hasattr(controller, state_selection):
-                #     action = getattr(controller, state_selection)
-                #     action(speed=20) # 16 is the speed, can be tuned
+                # Update the specific controller's state memory
+                controller.current_state = state_selection
+                
+                # Dynamically call the method (forward, turn_left, etc.) based on the specific controller's state
+                if hasattr(controller, state_selection):
+                    action = getattr(controller, state_selection)
+                    action(speed=10) # 10 is the speed, can be tuned
 
                 ####################### For now : simple forward movement #######################
-                controller.turn_left(speed=10) # 16 is the speed, can be tuned
+                # controller.turn_left(speed=10) # 16 is the speed, can be tuned
                 
             sim.step()
 

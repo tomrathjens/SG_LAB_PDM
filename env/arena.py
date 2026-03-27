@@ -1,7 +1,7 @@
 import pybullet as p
 
-class Arena:
-    def __init__(self, size=2.1, wall_height=0.3, wall_thickness=0.1):#in meters
+class Arena: #arena size SGlab = 2.1x2.1x0.3
+    def __init__(self, size=0.8, wall_height=0.1, wall_thickness=0.1):#in meters
         self.size = size
         self.wall_height = wall_height
         self.wall_thickness = wall_thickness
