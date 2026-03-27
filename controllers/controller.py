@@ -29,15 +29,15 @@ class Controller:
     def turn_left(self, speed=5):
 
         p.setJointMotorControl2(self.robot, self.left_wheel,
-                                p.VELOCITY_CONTROL, targetVelocity=speed, force =0.5)
+                                p.VELOCITY_CONTROL, targetVelocity=speed, force =1)
 
         p.setJointMotorControl2(self.robot, self.right_wheel,
-                                p.VELOCITY_CONTROL, targetVelocity=-speed, force =0.5)
+                                p.VELOCITY_CONTROL, targetVelocity=-speed, force =1)
         
     def turn_right(self, speed=5):
 
         p.setJointMotorControl2(self.robot, self.left_wheel,
-                                p.VELOCITY_CONTROL, targetVelocity=-speed, force =0.5)
+                                p.VELOCITY_CONTROL, targetVelocity=-speed, force =1)
 
         p.setJointMotorControl2(self.robot, self.right_wheel,
-                                p.VELOCITY_CONTROL, targetVelocity=+speed, force =0.5)
+                                p.VELOCITY_CONTROL, targetVelocity=+speed, force =1)

@@ -49,8 +49,14 @@ class Simulation:
                 self.left_wheel = i
             elif joint_name == "right_wheel_joint":
                 self.right_wheel = i
-        p.changeDynamics(self.robot, self.left_wheel, lateralFriction=2.0)
-        p.changeDynamics(self.robot, self.right_wheel, lateralFriction=2.0)
+            elif joint_name == "left_leg_joint" or joint_name == "right_leg_joint":
+                p.changeDynamics(self.robot, i, lateralFriction=0.0, spinningFriction=0.0, rollingFriction=0.0)
+
+        # Nulling out the chassis friction (base link) heavily in case it touches the ground
+        p.changeDynamics(self.robot, -1, lateralFriction=0.0, spinningFriction=0.0, rollingFriction=0.0)
+
+        p.changeDynamics(self.robot, self.left_wheel, lateralFriction=10.0, spinningFriction=0.005, rollingFriction=0.005)
+        p.changeDynamics(self.robot, self.right_wheel, lateralFriction=10.0, spinningFriction=0.005, rollingFriction=0.005)
 
     def step(self): #perform one physical step, where it computes forces, collisions ect... and updates the state of the simulation
         p.stepSimulation()

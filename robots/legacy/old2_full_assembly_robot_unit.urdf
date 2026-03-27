@@ -45,7 +45,7 @@
     <geometry>
       <!-- Replaced mesh with cylinder for smoother physics. Adjust radius and length if necessary to match visual -->
       <!-- <cylinder radius="0.00575" length="0.008"/> -->
-      <cylinder radius="0.00575" length="0.004"/>
+      <cylinder radius="0.00575" length="0.001"/>
     </geometry>
     <surface>
       <friction>
@@ -57,7 +57,7 @@
 </link>
 
 <joint name="left_wheel_joint" type="continuous">
-  <origin xyz="0.02264 0.009 -0.02193" rpy="0 0 0"/>
+  <origin xyz="0.02264 0.0061 -0.02193" rpy="0 0 0"/>
   <parent link="chassis_link"/>
   <child link="left_wheel_link"/>
   <axis xyz="-1 0 0"/>
@@ -84,7 +84,7 @@
     <geometry>
       <!-- Replaced mesh with cylinder for smoother physics. Adjust radius and length if necessary to match visual -->
       <!-- <cylinder radius="0.00575" length="0.008"/> -->
-      <cylinder radius="0.00575" length="0.004"/>
+      <cylinder radius="0.00575" length="0.001"/>
     </geometry>
     <surface>
       <friction>
@@ -96,7 +96,7 @@
 </link>
 
 <joint name="right_wheel_joint" type="continuous">
-  <origin xyz="-0.02264 0.009 -0.02193" rpy="3.1416 0 3.1416"/>
+  <origin xyz="-0.02264 0.0061 -0.02193" rpy="3.1416 0 3.1416"/>
   <parent link="chassis_link"/>
   <child link="right_wheel_link"/>
   <axis xyz="1 0 0"/>
@@ -156,7 +156,7 @@
 </link>
 
 <joint name="right_leg_joint" type="fixed">
-  <origin xyz="-0.014 0.0143 0.0173" rpy="-1.5708 0 3.1416" />
+  <origin xyz="-0.014 0.0113 0.0173" rpy="-1.5708 0 3.1416" />
   <parent link="chassis_link" />
   <child link="right_leg_link" />
 </joint>
@@ -181,7 +181,7 @@
 </link>
 
 <joint name="left_leg_joint" type="fixed">
-  <origin xyz="0.014 0.0143 0.0173" rpy="-1.5708 0 3.1416" />
+  <origin xyz="0.014 0.0113 0.0173" rpy="-1.5708 0 3.1416" />
   <parent link="chassis_link" />
   <child link="left_leg_link" />
 </joint>

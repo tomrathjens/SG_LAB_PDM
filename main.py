@@ -11,7 +11,7 @@ def main():
 
     sim = Simulation(gui=True)
     controllers = []
-    NBR_robot_units = 20
+    NBR_robot_units = 4
 
     ################### list of possible start positions for the robots ###################
     # arena is 2.1m x 2.1
@@ -45,7 +45,7 @@ def main():
 
         Rotated_reservoir_coord = R @ Old_reservoir_coord
 
-        NBR_balls_per_robot = 0
+        NBR_balls_per_robot = 10
 
         for i in range(NBR_balls_per_robot):
             ball_pos = [
@@ -93,20 +93,23 @@ def main():
             
 
             for controller in controllers:
-                ####################### For now : random movement, based on previous state #######################
-                potential_new_state = random.choice(["forward", "turn_left", "turn_right", "stop"])
+                # ####################### For now : random movement, based on previous state #######################
+                # potential_new_state = random.choice(["forward", "turn_left", "turn_right", "stop"])
                 
-                # random.choices returns a list, so we add [0] to get the string
-                state_selection = random.choices(
-                    population=[old_state, potential_new_state],
-                    weights=[0.999, 0.001],
-                    k=1)[0]
+                # # random.choices returns a list, so we add [0] to get the string
+                # state_selection = random.choices(
+                #     population=[old_state, potential_new_state],
+                #     weights=[0.999, 0.001],
+                #     k=1)[0]
 
-                old_state = state_selection # Update old_state for the next iteration
-                # Dynamically call the method (forward, turn_left, etc.) based on the state string
-                if hasattr(controller, state_selection):
-                    action = getattr(controller, state_selection)
-                    action(speed=15) # 16 is the speed, can be tuned
+                # old_state = state_selection # Update old_state for the next iteration
+                # # Dynamically call the method (forward, turn_left, etc.) based on the state string
+                # if hasattr(controller, state_selection):
+                #     action = getattr(controller, state_selection)
+                #     action(speed=20) # 16 is the speed, can be tuned
+
+                ####################### For now : simple forward movement #######################
+                controller.turn_left(speed=10) # 16 is the speed, can be tuned
                 
             sim.step()
 
