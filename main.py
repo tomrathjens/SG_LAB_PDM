@@ -45,7 +45,7 @@ def main():
 
         Rotated_reservoir_coord = R @ Old_reservoir_coord
 
-        NBR_balls_per_robot = 20
+        NBR_balls_per_robot = 0
 
         for i in range(NBR_balls_per_robot):
             ball_pos = [
@@ -70,6 +70,7 @@ def main():
     is_paused = False
 
     ######################### SIMULATION LOOP ########################
+    old_state = "forward" #initial state of the FSM, can be changed
     while True:
         ################Pause functionality################
         current_clicks = p.readUserDebugParameter(pause_button)
@@ -80,15 +81,32 @@ def main():
         ############### Locomotion strategy ###############
         if not is_paused:
             #########FSM######### 
-                #State 1: Move forward
-                #State 2: Turn left
-                #State 3: Turn right
-                #State 4 : Stop
-                #Transition: If front sensor detects obstacle, turn left. If left sensor detects obstacle,
-                #sensor input to be added : how can we detect the ball bellow?
+            # State 1: Move forward
+            # State 2: Turn left
+            # State 3: Turn right
+            # State 4 : Stop
+            # Transition: If front sensor detects obstacle, turn left. If left sensor detects obstacle,
+            
+            # sensor input to be added : how can we detect the ball bellow?
+            # Simple fix: Use p.getContactPoints(robot_id, ball_id) or p.rayTest() here.
+
+            
 
             for controller in controllers:
-                controller.forward(16) #8 is the speed, can be tuned
+                ####################### For now : random movement, based on previous state #######################
+                potential_new_state = random.choice(["forward", "turn_left", "turn_right", "stop"])
+                
+                # random.choices returns a list, so we add [0] to get the string
+                state_selection = random.choices(
+                    population=[old_state, potential_new_state],
+                    weights=[0.999, 0.001],
+                    k=1)[0]
+
+                old_state = state_selection # Update old_state for the next iteration
+                # Dynamically call the method (forward, turn_left, etc.) based on the state string
+                if hasattr(controller, state_selection):
+                    action = getattr(controller, state_selection)
+                    action(speed=15) # 16 is the speed, can be tuned
                 
             sim.step()
 

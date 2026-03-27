@@ -36,8 +36,21 @@ class Simulation:
         )
 
         # wheel friction
-        p.changeDynamics(self.robot, 0, lateralFriction=1.0)
-        p.changeDynamics(self.robot, 1, lateralFriction=1.0)
+        # p.changeDynamics(self.robot, 0, lateralFriction=1.0)
+        # p.changeDynamics(self.robot, 1, lateralFriction=1.0)
+        # p.changeDynamics(self.robot, 0, lateralFriction=20.0)
+        # p.changeDynamics(self.robot, 1, lateralFriction=20.0)
+        # Inside your Controller __init__
+        for i in range(p.getNumJoints(self.robot)):
+            joint_info = p.getJointInfo(self.robot, i)
+            joint_name = joint_info[1].decode('utf-8')
+            
+            if joint_name == "left_wheel_joint":
+                self.left_wheel = i
+            elif joint_name == "right_wheel_joint":
+                self.right_wheel = i
+        p.changeDynamics(self.robot, self.left_wheel, lateralFriction=2.0)
+        p.changeDynamics(self.robot, self.right_wheel, lateralFriction=2.0)
 
     def step(self): #perform one physical step, where it computes forces, collisions ect... and updates the state of the simulation
         p.stepSimulation()
