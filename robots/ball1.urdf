@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<robot name="ball1">
+  <link name="baseLink">
+    
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.0003"/> 
+      <inertia ixx="4.8e-10" ixy="0" ixz="0" 
+               iyy="4.8e-10" iyz="0" 
+               izz="4.8e-10"/>
+    </inertial>
+    
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.002"/> 
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+    
+    <collision>
+      <geometry>
+        <sphere radius="0.002"/>
+      </geometry>
+      <surface>
+        <bounce restitution_coefficient="0.8" threshold="0.001"/>
+        <friction>
+          <ode mu="0.1" mu2="0.1"/>
+        </friction>
+        <contact>
+          <ode kp="1000000.0" kd="1.0"/>
+          <bullet rolling_friction="0.0005" spinning_friction="0.0005" contact_processing_threshold="0.0001"/>
+        </contact>
+      </surface>
+    </collision>
+    
+  </link>
+</robot>

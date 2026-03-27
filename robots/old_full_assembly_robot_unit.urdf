@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- My latest version-->
+<robot name="full_assembly_robot_unit">
+
+  <link name="chassis_link">
+    <inertial>
+      <origin xyz="-1.74880500214631E-05 -0.00532025583432265 -0.00564778889374386" rpy="0 0 0" />
+      <mass value="0.0508" />
+      <inertia ixx="1.18E-05" ixy="0" ixz="0" iyy="3.23E-05" iyz="0" izz="2.35E-05" />
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="robots/meshes/chassis_link.STL" />
+      </geometry>
+      <material name="dark_grey"><color rgba="0.2 0.2 0.2 1" /></material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="robots/meshes/chassis_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="wheel_left_link">
+    <inertial>
+      <origin xyz="-0.004 0 0" rpy="0 0 0" />
+      <mass value="0.015" /> <inertia ixx="1E-07" ixy="0" ixz="0" iyy="1E-07" iyz="0" izz="1E-07" />
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="robots/meshes/left_wheel_link.STL" />
+      </geometry>
+      <material name="green"><color rgba="0.0 1.0 0.0 1" /></material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="robots/meshes/left_wheel_link.STL" />
+      </geometry>
+      <surface>
+        <friction>
+          <ode mu="1.0" mu2="1.0"/>
+        </friction>
+      </surface>
+    </collision>
+  </link>
+
+  <joint name="wheel_left_joint" type="continuous">
+    <origin xyz="-0.02264 -0.04734 0.0161" rpy="1.5708 0 3.1416" />
+    <parent link="chassis_link" />
+    <child link="wheel_left_link" />
+    <axis xyz="-1 0 0" />
+  </joint>
+
+  <link name="wheel_right_link">
+    <inertial>
+      <origin xyz="-0.004 0 0" rpy="0 0 0" />
+      <mass value="0.015" /> <inertia ixx="1E-07" ixy="0" ixz="0" iyy="1E-07" iyz="0" izz="1E-07" />
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="robots/meshes/right_wheel_link.STL" />
+      </geometry>
+      <material name="red"><color rgba="1.0 0.0 0.0 1" /></material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="robots/meshes/right_wheel_link.STL" />
+      </geometry>
+      <surface>
+        <friction>
+          <ode mu="1.0" mu2="1.0"/>
+        </friction>
+      </surface>
+    </collision>
+  </link>
+
+  <joint name="wheel_right_joint" type="continuous">
+    <origin xyz="0.02264 -0.04734 0.0161" rpy="1.5708 0 0" />
+    <parent link="chassis_link" />
+    <child link="wheel_right_link" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="rear_ball_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.005" />
+      <inertia ixx="1E-08" ixy="0" ixz="0" iyy="1E-08" iyz="0" izz="1E-08" />
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="robots/meshes/rear_ball_link.STL" />
+      </geometry>
+      <material name="yellow"><color rgba="1.0 1.0 0.0 1" /></material>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="robots/meshes/rear_ball_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="rear_ball_joint" type="fixed">
+    <origin xyz="0 -0.020375 0.0161" rpy="1.5708 0 1.5708" />
+    <parent link="chassis_link" />
+    <child link="rear_ball_link" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <link name="UV_LED_link">
+    <visual>
+      <geometry>
+        <mesh filename="robots/meshes/UV_LED_link.STL" />
+      </geometry>
+      <material name="purple"><color rgba="0.6 0.0 1.0 1" /></material>
+    </visual>
+  </link>
+
+  <joint name="UV_LED_joint" type="fixed">
+    <origin xyz="0 -0.0070524 0.01" rpy="1.5708 0 -1.5708" />
+    <parent link="chassis_link" />
+    <child link="UV_LED_link" />
+  </joint>
+
+  <link name="sensor_camera_link">
+    <visual>
+      <geometry>
+        <mesh filename="robots/meshes/sensor_camera_link.STL" />
+      </geometry>
+      <material name="blue"><color rgba="0.0 0.0 1.0 1" /></material>
+    </visual>
+  </link>
+
+  <joint name="sensor_camera_joint" type="fixed">
+    <origin xyz="0 -0.01 0.01" rpy="1.5708 0 1.5708" />
+    <parent link="chassis_link" />
+    <child link="sensor_camera_link" />
+  </joint>
+
+  <!-- <link name="ReservoirV2_link">
+    <inertial>
+      <origin xyz="0 0 -0.0187" rpy="0 0 0" />
+      <mass value="0.0085" />
+      <inertia ixx="2.04E-06" ixy="0" ixz="0" iyy="2.04E-06" iyz="0" izz="1.08E-06" />
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="robots/meshes/ReservoirV2.STL" />
+      </geometry>
+      <material name="cyan">
+        <color rgba="0.0 0.8 0.8 1" />
+      </material>
+    </visual>
+  </link>
+
+  <joint name="ReservoirV2_joint" type="fixed">
+    <origin xyz="0.01 0 0.0146" rpy="0 0 0" />
+    <parent link="chassis_link" />
+    <child link="ReservoirV2_link" />
+    <axis xyz="0 0 1" />
+  </joint> -->
+
+</robot>
