@@ -11,7 +11,7 @@ def main():
 
     sim = Simulation(gui=True)
     controllers = []
-    NBR_robot_units = 10
+    NBR_robot_units = 6
 
 
     ################### list of possible start positions for the robots ###################
