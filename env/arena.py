@@ -12,6 +12,7 @@ class Arena: #arena size SGlab = 2.1x2.1x0.3
         ground_shape = p.createCollisionShape(p.GEOM_PLANE)
         self.ground_id = p.createMultiBody(0, ground_shape)
         p.changeDynamics(self.ground_id, -1, lateralFriction=2.0, rollingFriction=0.0, spinningFriction=0.0, restitution=0.5)
+
     def create_walls(self):
         s = self.size
         h = self.wall_height

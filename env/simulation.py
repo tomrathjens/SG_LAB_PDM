@@ -13,8 +13,9 @@ class Simulation:
         if gui:
             self.client = p.connect(p.GUI)#to create a graphical interface
             p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)  # clean GUI
+            p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 0)  # disable shadows
 
-            p.resetDebugVisualizerCamera(cameraDistance=1.5,cameraYaw=50,cameraPitch=-35,cameraTargetPosition=[0,0,0])
+            p.resetDebugVisualizerCamera(cameraDistance=0.6,cameraYaw=50,cameraPitch=-35,cameraTargetPosition=[0,0,0])
         else:
             self.client = p.connect(p.DIRECT)
 
